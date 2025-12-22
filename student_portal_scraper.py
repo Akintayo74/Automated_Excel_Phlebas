@@ -21,7 +21,6 @@ class StudentPortalScraper:
         self.driver = None
         self.wb = None
         self.ws = None
-        self.class_filter_set = False  # ← ADD THIS LINE
         
     def setup_driver(self):
         """Initialize Chrome WebDriver with appropriate options"""
@@ -105,19 +104,19 @@ class StudentPortalScraper:
                 self.driver.get(self.portal_url)
                 time.sleep(2)
             
-            # Set class filter to SS3 (only once)
-            if not self.class_filter_set:
-                try:
-                    class_dropdown = self.driver.find_element(By.XPATH, "//label[contains(text(), 'CLASS')]/..//select")
-                    class_dropdown.click()
-                    time.sleep(0.5)
-                    class_option = self.driver.find_element(By.XPATH, "//option[contains(text(), 'SS3') or contains(text(), 'SSS 3')]")
-                    class_option.click()
-                    time.sleep(1)
-                    self.class_filter_set = True
-                    print("  ✓ Class filter set to SS3")
-                except Exception as e:
-                    print(f"  ⚠ Could not set class filter: {e}")
+            # # Set class filter to SS3 (only once)
+            # if not self.class_filter_set:
+            #     try:
+            #         class_dropdown = self.driver.find_element(By.XPATH, "//label[contains(text(), 'CLASS')]/..//select")
+            #         class_dropdown.click()
+            #         time.sleep(0.5)
+            #         class_option = self.driver.find_element(By.XPATH, "//option[contains(text(), 'SS3') or contains(text(), 'SSS 3')]")
+            #         class_option.click()
+            #         time.sleep(1)
+            #         self.class_filter_set = True
+            #         print("  ✓ Class filter set to SS3")
+            #     except Exception as e:
+            #         print(f"  ⚠ Could not set class filter: {e}")
             
             # Find search box and clear it
             search_box = WebDriverWait(self.driver, 10).until(
@@ -143,14 +142,14 @@ class StudentPortalScraper:
                 
                 # Parse full_name from Excel to compare
                 full_name_clean = re.sub(r'\s+', ' ', full_name.upper().strip())
-                full_name_parts = full_name_clean.split()
-                
+                full_name_parts = set(full_name_clean.split())  # Use set for order-independent matching
+
                 print(f"  → Found {len(rows)} result(s), checking for best match...")
-                
+
                 # Check each row for name match
                 best_match = None
                 best_score = 0
-                
+
                 for row in rows:
                     try:
                         # Get admission number (first column)
@@ -166,29 +165,43 @@ class StudentPortalScraper:
                         last_name_portal = last_name_cell.text.strip().upper()
                         
                         # Combine portal name
-                        portal_full_name = f"{first_name_portal} {last_name_portal}"
-                        
-                        # Calculate match score (how many words from Excel appear in portal)
-                        score = 0
+                        portal_display = f"{first_name_portal} {last_name_portal}"
+                        portal_full = portal_display.replace(" ", "")  # Remove spaces for fuzzy matching
+
+                        # Method 1: Exact word matching (order-independent)
+                        portal_words = set(portal_display.split())
+                        matching_words = full_name_parts.intersection(portal_words)
+                        exact_score = len(matching_words) / len(full_name_parts) if full_name_parts else 0
+
+                        # Method 2: Fuzzy substring matching (handles compound names like STELLAMARIS)
+                        fuzzy_score = 0
+                        excel_combined = full_name_clean.replace(" ", "")  # Remove spaces
                         for part in full_name_parts:
-                            if part in portal_full_name:
-                                score += 1
-                        
-                        # Normalize score
-                        normalized_score = score / len(full_name_parts)
-                        
-                        print(f"    • {portal_full_name}: {admission_number} (match: {normalized_score:.0%})")
-                        
+                            if len(part) >= 3:  # Only check meaningful parts
+                                # Check if Excel part is in portal name (handles STELLA vs STELLAMARIS)
+                                if part in portal_full:
+                                    fuzzy_score += 1
+                                # Check if portal name contains Excel part (handles OKAFUDA vs OKOAFUDA)
+                                elif any(part in word or word in part for word in portal_words):
+                                    fuzzy_score += 0.8
+
+                        fuzzy_score = fuzzy_score / len(full_name_parts) if full_name_parts else 0
+
+                        # Use the better score
+                        normalized_score = max(exact_score, fuzzy_score)
+
+                        print(f"    • {portal_display}: {admission_number} (exact: {exact_score:.0%}, fuzzy: {fuzzy_score:.0%} → {normalized_score:.0%})")
+
                         # Keep track of best match
                         if normalized_score > best_score:
                             best_score = normalized_score
-                            best_match = (admission_number, portal_full_name)
+                            best_match = (admission_number, portal_display)
                     
                     except Exception as e:
                         continue
                 
                 # Return best match if confidence is high enough (at least 50% match)
-                if best_match and best_score >= 0.5:
+                if best_match and best_score >= 0.45:
                     print(f"  ✓ Best match: {best_match[1]} → {best_match[0]}")
                     return best_match[0]
                 else:
