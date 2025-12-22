@@ -13,6 +13,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import openpyxl
 from openpyxl.styles import PatternFill
+from difflib import SequenceMatcher
+
+# Add this helper function at the top of your script
+def get_similarity(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 class StudentPortalScraper:
     def __init__(self, excel_path, portal_url):
@@ -97,125 +102,89 @@ class StudentPortalScraper:
         return name
     
     def search_student(self, name, full_name):
-        """Search for a student and extract admission number with smart matching"""
         try:
-            # Navigate to students page if not already there
             if "students" not in self.driver.current_url.lower():
                 self.driver.get(self.portal_url)
                 time.sleep(2)
-            
-            # # Set class filter to SS3 (only once)
-            # if not self.class_filter_set:
-            #     try:
-            #         class_dropdown = self.driver.find_element(By.XPATH, "//label[contains(text(), 'CLASS')]/..//select")
-            #         class_dropdown.click()
-            #         time.sleep(0.5)
-            #         class_option = self.driver.find_element(By.XPATH, "//option[contains(text(), 'SS3') or contains(text(), 'SSS 3')]")
-            #         class_option.click()
-            #         time.sleep(1)
-            #         self.class_filter_set = True
-            #         print("  ✓ Class filter set to SS3")
-            #     except Exception as e:
-            #         print(f"  ⚠ Could not set class filter: {e}")
-            
-            # Find search box and clear it
+
+            # 1. OPTIONAL: Fixed Class Filter (SS3)
+            try:
+                # This XPath finds the select element appearing after the "CLASS" label
+                class_dropdown = self.driver.find_element(By.XPATH, "//label[contains(text(), 'CLASS')]/following::select[1]")
+                # ... select logic here ...
+            except:
+                pass 
+
             search_box = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='text']"))
             )
             search_box.clear()
-            time.sleep(0.5)
-            
-            # Enter student name (first name only for broader search)
-            print(f"  → Searching for: {name}")
             search_box.send_keys(name)
-            time.sleep(2)  # Wait for search results
+            time.sleep(2.5) # Increased wait for portal to refresh results
+
+            rows = self.driver.find_elements(By.CSS_SELECTOR, "table tbody tr")
             
-            # Get ALL matching rows from the table
-            try:
-                rows = WebDriverWait(self.driver, 5).until(
-                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, "table tbody tr"))
-                )
-                
-                if not rows:
-                    print(f"  ✗ No results found for {name}")
-                    return None
-                
-                # Parse full_name from Excel to compare
-                full_name_clean = re.sub(r'\s+', ' ', full_name.upper().strip())
-                full_name_parts = set(full_name_clean.split())  # Use set for order-independent matching
+            full_name_clean = re.sub(r'\s+', ' ', full_name.upper().strip())
+            full_name_parts = [p for p in full_name_clean.split() if len(p) >= 3]
 
-                print(f"  → Found {len(rows)} result(s), checking for best match...")
+            best_match = None
+            best_score = 0
 
-                # Check each row for name match
-                best_match = None
-                best_score = 0
-
-                for row in rows:
-                    try:
-                        # Get admission number (first column)
-                        admission_cell = row.find_element(By.CSS_SELECTOR, "td:nth-child(1)")
-                        admission_number = admission_cell.text.strip()
-                        
-                        # Get first name (second column)
-                        first_name_cell = row.find_element(By.CSS_SELECTOR, "td:nth-child(2)")
-                        first_name_portal = first_name_cell.text.strip().upper()
-                        
-                        # Get last name (third column)
-                        last_name_cell = row.find_element(By.CSS_SELECTOR, "td:nth-child(3)")
-                        last_name_portal = last_name_cell.text.strip().upper()
-                        
-                        # Combine portal name
-                        portal_display = f"{first_name_portal} {last_name_portal}"
-                        portal_full = portal_display.replace(" ", "")  # Remove spaces for fuzzy matching
-
-                        # Method 1: Exact word matching (order-independent)
-                        portal_words = set(portal_display.split())
-                        matching_words = full_name_parts.intersection(portal_words)
-                        exact_score = len(matching_words) / len(full_name_parts) if full_name_parts else 0
-
-                        # Method 2: Fuzzy substring matching (handles compound names like STELLAMARIS)
-                        fuzzy_score = 0
-                        excel_combined = full_name_clean.replace(" ", "")  # Remove spaces
-                        for part in full_name_parts:
-                            if len(part) >= 3:  # Only check meaningful parts
-                                # Check if Excel part is in portal name (handles STELLA vs STELLAMARIS)
-                                if part in portal_full:
-                                    fuzzy_score += 1
-                                # Check if portal name contains Excel part (handles OKAFUDA vs OKOAFUDA)
-                                elif any(part in word or word in part for word in portal_words):
-                                    fuzzy_score += 0.8
-
-                        fuzzy_score = fuzzy_score / len(full_name_parts) if full_name_parts else 0
-
-                        # Use the better score
-                        normalized_score = max(exact_score, fuzzy_score)
-
-                        print(f"    • {portal_display}: {admission_number} (exact: {exact_score:.0%}, fuzzy: {fuzzy_score:.0%} → {normalized_score:.0%})")
-
-                        # Keep track of best match
-                        if normalized_score > best_score:
-                            best_score = normalized_score
-                            best_match = (admission_number, portal_display)
-                    
-                    except Exception as e:
+            for row in rows:
+                try:
+                    # FIX 1: Verify this is a data row, not a "No Results" message
+                    cells = row.find_elements(By.TAG_NAME, "td")
+                    if len(cells) < 3: 
                         continue
-                
-                # Return best match if confidence is high enough (at least 50% match)
-                if best_match and best_score >= 0.45:
-                    print(f"  ✓ Best match: {best_match[1]} → {best_match[0]}")
-                    return best_match[0]
-                else:
-                    print(f"  ✗ No confident match found (best score: {best_score:.0%})")
-                    return None
+
+                    admission_number = cells[0].text.strip()
+                    first_name_portal = cells[1].text.strip().upper()
+                    last_name_portal = cells[2].text.strip().upper()
                     
-            except TimeoutException:
-                print(f"  ✗ No results found for {name}")
-                return None
-                
-        except Exception as e:
-            print(f"  ✗ Search error: {str(e)}")
+                    portal_display = f"{first_name_portal} {last_name_portal}"
+                    portal_full_no_space = portal_display.replace(" ", "")
+                    portal_words = set(portal_display.split())
+
+                    # Method 1: Exact word matching
+                    matching_words = set(full_name_parts).intersection(portal_words)
+                    exact_score = len(matching_words) / len(full_name_parts) if full_name_parts else 0
+
+                    # FIX 2: Improved Fuzzy Matching with SequenceMatcher
+                    fuzzy_points = 0
+                    for part in full_name_parts:
+                        if part in portal_full_no_space:
+                            fuzzy_points += 1
+                        else:
+                            # Check similarity against each word in the portal name
+                            word_sims = [get_similarity(part, w) for w in portal_words]
+                            max_sim = max(word_sims) if word_sims else 0
+                            if max_sim > 0.8: # Threshold for spelling variants
+                                fuzzy_points += max_sim
+                    
+                    fuzzy_score = fuzzy_points / len(full_name_parts) if full_name_parts else 0
+                    normalized_score = max(exact_score, fuzzy_score)
+
+                    print(f" • {portal_display}: {admission_number} (Score: {normalized_score:.0%})")
+
+                    if normalized_score > best_score:
+                        best_score = normalized_score
+                        best_match = (admission_number, portal_display)
+
+                except Exception as row_err:
+                    # Useful for debugging why a row failed
+                    # print(f"  ⚠ Row error: {row_err}")
+                    continue
+
+            if best_match and best_score >= 0.45:
+                print(f" ✓ Best match: {best_match[1]} → {best_match[0]}")
+                return best_match[0]
+            
             return None
 
+        except Exception as e:
+            print(f" ✗ Search error: {str(e)}")
+            return None
+    
     def load_excel(self):
         """Load the Excel file"""
         try:
