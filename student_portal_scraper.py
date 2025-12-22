@@ -16,6 +16,9 @@ from openpyxl.styles import PatternFill
 from difflib import SequenceMatcher
 from dotenv import load_dotenv
 import os
+import argparse
+import glob
+from pathlib import Path
 
 load_dotenv()
 # Add this helper function at the top of your script
@@ -198,23 +201,61 @@ class StudentPortalScraper:
         except Exception as e:
             print(f"✗ Error loading Excel: {str(e)}")
             return False
+        
+    def process_workbook(self, start_row=3):
+        """NEW: This handles the loop through all sheets (Silver, Gold, Ruby)"""
+        total_updated = 0
+        total_skipped = 0
+        total_errors = 0
+        
+        yellow_fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+        
+        # Loop through all sheets in the workbook
+        for sheet_name in self.wb.sheetnames:
+            print(f"\n{'='*70}")
+            print(f"  PROCESSING SHEET: {sheet_name}")
+            print(f"{'='*70}")
+            
+            # Set the current active sheet
+            self.ws = self.wb[sheet_name]
+            
+            # Call the row-by-row processing logic
+            updated, skipped, errors = self.process_students(start_row, yellow_fill)
+            
+            total_updated += updated
+            total_skipped += skipped
+            total_errors += errors
+        
+        # Save the final result after ALL sheets are done
+        try:
+            output_path = self.excel_path.replace('.xlsx', '_updated.xlsx')
+            self.wb.save(output_path)
+            print(f"\n{'='*70}")
+            print(f"✓ ENTIRE WORKBOOK SAVED: {output_path}")
+            print(f"{'='*70}")
+            print(f"\nFINAL SUMMARY (All Sheets):")
+            print(f"  • Total Updated: {total_updated}")
+            print(f"  • Total Skipped: {total_skipped}")
+            print(f"  • Total Errors: {total_errors}")
+            print(f"  • Total Processed: {total_updated + total_skipped + total_errors}")
+            return output_path, total_updated, total_errors
+        except Exception as e:
+            print(f"\n✗ Error saving workbook: {str(e)}")
+            return None, total_updated, total_errors
     
-    def process_students(self, start_row=3):
-        """Process all students in the Excel file"""
+    def process_students(self, start_row=3, yellow_fill=None):
+        """MODIFIED: Now returns counts instead of saving the file here"""
         if not self.ws:
             print("✗ Excel file not loaded")
-            return
+            return 0, 0, 0
         
-        print(f"\n{'='*70}")
-        print("Starting to process students...")
-        print(f"{'='*70}\n")
+        # Create yellow fill if not provided
+        if yellow_fill is None:
+            yellow_fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
         
         updated_count = 0
         skipped_count = 0
         error_count = 0
-        
-        # Highlight color for updated cells
-        yellow_fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
         
         for row_idx in range(start_row, self.ws.max_row + 1):
             admission_cell = self.ws.cell(row=row_idx, column=1)  # Column A
@@ -257,23 +298,16 @@ class StudentPortalScraper:
             # Small delay to avoid overwhelming the server
             time.sleep(1)
         
-        # Save the Excel file
-        try:
-            output_path = self.excel_path.replace('.xlsx', '_updated.xlsx')
-            self.wb.save(output_path)
-            print(f"\n{'='*70}")
-            print(f"✓ Excel file saved: {output_path}")
-            print(f"{'='*70}")
-            print(f"\nSummary:")
-            print(f"  • Updated: {updated_count}")
-            print(f"  • Skipped: {skipped_count}")
-            print(f"  • Errors: {error_count}")
-            print(f"  • Total processed: {updated_count + skipped_count + error_count}")
-            return output_path
-        except Exception as e:
-            print(f"\n✗ Error saving Excel: {str(e)}")
-            return None
-    
+        # Print sheet summary
+        print(f"\n{'-'*70}")
+        print(f"Sheet Summary ({self.ws.title}):")
+        print(f"  • Updated: {updated_count}")
+        print(f"  • Skipped: {skipped_count}")
+        print(f"  • Errors: {error_count}")
+        print(f"{'-'*70}")
+        
+        return updated_count, skipped_count, error_count
+
     def close(self):
         """Close browser and cleanup"""
         if self.driver:
@@ -282,50 +316,105 @@ class StudentPortalScraper:
 
 
 def main():
-    """Main execution function"""
-    # Configuration
-    EXCEL_PATH = "/home/akintayo74/Downloads/SS3/EXAM SS3 GOVERNMENT.xlsx"
-    PORTAL_URL = "https://cdssjos.portal.commandschools.sch.ng/students"
+    """Main execution function with command-line argument support"""
+    # 1. Setup Argument Parser
+    parser = argparse.ArgumentParser(
+        description="Automated Student Portal Scraper",
+        epilog="Example: python script.py /path/to/folder/"
+    )
+    parser.add_argument(
+        "path", 
+        help="Path to Excel file(s) or directory containing Excel files"
+    )
+    parser.add_argument(
+        "--pattern",
+        default="*.xlsx",
+        help="File pattern to match (default: *.xlsx)"
+    )
+    args = parser.parse_args()
+
+    # 2. Get Credentials from .env
+    PORTAL_URL = os.getenv("PORTAL_URL")
+    USERNAME = os.getenv("PORTAL_USER")
+    PASSWORD = os.getenv("PORTAL_PASS")
     
-    # Login credentials - REPLACE THESE WITH YOUR ACTUAL CREDENTIALS
-    USERNAME = os.getenv("PORTAL_USER")  # ← CHANGE THIS
-    PASSWORD = os.getenv("PORTAL_PASS")  # ← CHANGE THIS
+    # Validate environment variables
+    if not all([PORTAL_URL, USERNAME, PASSWORD]):
+        print("✗ Error: Missing environment variables!")
+        print("  Please ensure your .env file contains:")
+        print("    PORTAL_URL=https://...")
+        print("    PORTAL_USER=your_username")
+        print("    PORTAL_PASS=your_password")
+        return
+
+    # 3. Determine which files to process
+    path = Path(args.path)
     
+    if path.is_file():
+        # Single file provided
+        files_to_process = [str(path)]
+    elif path.is_dir():
+        # Directory provided - find all Excel files
+        pattern = args.pattern
+        files_to_process = glob.glob(str(path / pattern))
+        if not files_to_process:
+            print(f"✗ No files matching '{pattern}' found in {path}")
+            return
+    else:
+        print(f"✗ Path does not exist: {path}")
+        return
+    
+    # 4. Display files to process
     print("\n" + "="*70)
     print("STUDENT PORTAL AUTOMATION SCRIPT")
+    print("="*70)
+    print(f"Files to process: {len(files_to_process)}")
+    for f in files_to_process:
+        print(f"  • {Path(f).name}")
     print("="*70 + "\n")
     
-    # Initialize scraper
-    scraper = StudentPortalScraper(EXCEL_PATH, PORTAL_URL)
+    # 5. Process each file
     
-    try:
-        # Step 1: Setup browser
-        scraper.setup_driver()
+    for idx, file_path in enumerate(files_to_process, 1):
+        print(f"\n{'#'*70}")
+        print(f">>> FILE {idx}/{len(args.files)}: {file_path}")
+        print(f"{'#'*70}")
         
-        # Step 2: Login
-        if not scraper.login(USERNAME, PASSWORD):
-            print("\n✗ Failed to login. Please check your credentials and try again.")
+        scraper = StudentPortalScraper(file_path, PORTAL_URL)
+        
+        try:
+            scraper.setup_driver()
+            
+            if not scraper.login(USERNAME, PASSWORD):
+                print(f"\n✗ Failed to login for {file_path}. Skipping...")
+                scraper.close()
+                continue
+            
+            if not scraper.load_excel():
+                print(f"\n✗ Failed to load {file_path}. Skipping...")
+                scraper.close()
+                continue
+            
+            # Process all sheets in the workbook
+            output, updated, errors = scraper.process_workbook(start_row=3)
+            
+            if output:
+                print(f"\n✓ FINISHED: {file_path}")
+                print(f"✓ Saved to: {output}")
+                print(f"✓ Total Updated: {updated} | Total Errors: {errors}")
+            
+        except KeyboardInterrupt:
+            print("\n\n⚠ Process interrupted by user")
             scraper.close()
-            return
-        
-        # Step 3: Load Excel
-        if not scraper.load_excel():
+            break
+        except Exception as e:
+            print(f"✗ Fatal error processing {file_path}: {e}")
+        finally:
             scraper.close()
-            return
-        
-        # Step 4: Process students
-        output_file = scraper.process_students(start_row=3)
-        
-        if output_file:
-            print(f"\n✓ Success! Check your updated file: {output_file}")
-        
-    except KeyboardInterrupt:
-        print("\n\n⚠ Process interrupted by user")
-    except Exception as e:
-        print(f"\n✗ Unexpected error: {str(e)}")
-    finally:
-        scraper.close()
-
+    
+    print(f"\n{'='*70}")
+    print("ALL FILES PROCESSED")
+    print(f"{'='*70}\n")
 
 if __name__ == "__main__":
     main()
