@@ -14,7 +14,10 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import openpyxl
 from openpyxl.styles import PatternFill
 from difflib import SequenceMatcher
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 # Add this helper function at the top of your script
 def get_similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -285,8 +288,8 @@ def main():
     PORTAL_URL = "https://cdssjos.portal.commandschools.sch.ng/students"
     
     # Login credentials - REPLACE THESE WITH YOUR ACTUAL CREDENTIALS
-    USERNAME = "admin@cdssjos.portal.commandschools.sch.ng"  # ← CHANGE THIS
-    PASSWORD = "password"  # ← CHANGE THIS
+    USERNAME = os.getenv("PORTAL_USER")  # ← CHANGE THIS
+    PASSWORD = os.getenv("PORTAL_PASS")  # ← CHANGE THIS
     
     print("\n" + "="*70)
     print("STUDENT PORTAL AUTOMATION SCRIPT")
