@@ -6,6 +6,7 @@ Automatically fetches admission numbers from the school portal and updates Excel
 import time
 import re
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -19,6 +20,8 @@ import os
 import argparse
 import glob
 from pathlib import Path
+import logging
+from datetime import datetime
 
 load_dotenv()
 # Add this helper function at the top of your script
@@ -33,6 +36,50 @@ class StudentPortalScraper:
         self.wb = None
         self.ws = None
         
+    def setup_logging(self, log_dir="./logs"):
+        """Setup file logging for the scraping session"""
+        import os
+        from pathlib import Path
+        
+        # Create logs directory if it doesn't exist
+        Path(log_dir).mkdir(exist_ok=True)
+        
+        # Create log filename with timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        excel_name = Path(self.excel_path).stem
+        log_file = f"{log_dir}/{excel_name}_{timestamp}.log"
+        
+        # Setup logger
+        self.logger = logging.getLogger(f"Scraper_{excel_name}")
+        self.logger.setLevel(logging.INFO)
+        
+        # File handler
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+        
+        # Console handler (still print important stuff)
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.WARNING)  # Only warnings/errors to console
+        
+        # Format
+        formatter = logging.Formatter(
+            '%(asctime)s | %(levelname)s | %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+        file_handler.setFormatter(formatter)
+        console_handler.setFormatter(formatter)
+        
+        self.logger.addHandler(file_handler)
+        self.logger.addHandler(console_handler)
+        
+        self.logger.info("="*80)
+        self.logger.info(f"SCRAPING SESSION STARTED: {excel_name}")
+        self.logger.info(f"Log file: {log_file}")
+        self.logger.info("="*80)
+        
+        print(f"📝 Logging to: {log_file}")
+        return log_file
+
     def setup_driver(self):
         """Initialize Chrome WebDriver with appropriate options"""
         chrome_options = Options()
@@ -113,13 +160,33 @@ class StudentPortalScraper:
                 self.driver.get(self.portal_url)
                 time.sleep(2)
 
-            # 1. OPTIONAL: Fixed Class Filter (SS3)
-            try:
-                # This XPath finds the select element appearing after the "CLASS" label
-                class_dropdown = self.driver.find_element(By.XPATH, "//label[contains(text(), 'CLASS')]/following::select[1]")
-                # ... select logic here ...
-            except:
-                pass 
+             # 1. Set Class Filter if specified
+            if hasattr(self, 'target_class') and self.target_class:
+                try:
+                    # Find the CLASS dropdown
+                    class_dropdown = self.driver.find_element(
+                        By.XPATH, 
+                        "//label[contains(text(), 'CLASS')]/following::select[1]"
+                    )
+                    
+                    # Use Select to choose the class
+                    select = Select(class_dropdown)
+                    
+                    # Try exact match first
+                    try:
+                        select.select_by_visible_text(self.target_class)
+                        print(f"  ✓ Class filter set to: {self.target_class}")
+                        time.sleep(1)
+                    except:
+                        # Try partial match if exact fails
+                        for option in select.options:
+                            if self.target_class.upper() in option.text.upper():
+                                select.select_by_visible_text(option.text)
+                                print(f"  ✓ Class filter set to: {option.text}")
+                                time.sleep(1)
+                                break
+                except Exception as e:
+                    print(f"  ⚠ Could not set class filter: {e}")
 
             search_box = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='text']"))
@@ -182,6 +249,9 @@ class StudentPortalScraper:
                     continue
 
             if best_match and best_score >= 0.45:
+                # Log matches with low confidence for review
+                if best_score < 0.70:
+                    print(f" ⚠ LOW CONFIDENCE MATCH ({best_score:.0%}) - Please verify!")
                 print(f" ✓ Best match: {best_match[1]} → {best_match[0]}")
                 return best_match[0]
             
@@ -317,10 +387,9 @@ class StudentPortalScraper:
 
 def main():
     """Main execution function with command-line argument support"""
-    # 1. Setup Argument Parser
     parser = argparse.ArgumentParser(
         description="Automated Student Portal Scraper",
-        epilog="Example: python script.py /path/to/folder/"
+        epilog="Example: python script.py /path/to/folder/ --class 'JSS 3'"
     )
     parser.add_argument(
         "path", 
@@ -330,6 +399,12 @@ def main():
         "--pattern",
         default="*.xlsx",
         help="File pattern to match (default: *.xlsx)"
+    )
+    parser.add_argument(
+        "--class",
+        dest="student_class",
+        default=None,
+        help="Filter by class (e.g., 'JSS 3', 'SS 3') - speeds up search"
     )
     args = parser.parse_args()
 
@@ -377,10 +452,11 @@ def main():
     
     for idx, file_path in enumerate(files_to_process, 1):
         print(f"\n{'#'*70}")
-        print(f">>> FILE {idx}/{len(args.files)}: {file_path}")
+        print(f">>> FILE {idx}/{len(files_to_process)}: {file_path}")
         print(f"{'#'*70}")
         
         scraper = StudentPortalScraper(file_path, PORTAL_URL)
+        scraper.target_class = args.student_class  # ← ADD THIS
         
         try:
             scraper.setup_driver()
