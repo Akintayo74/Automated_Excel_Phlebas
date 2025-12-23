@@ -79,6 +79,99 @@ class StudentPortalScraper:
         
         print(f"📝 Logging to: {log_file}")
         return log_file
+    
+    def set_class_filter(self):
+        """Set the class filter once after login"""
+        if not hasattr(self, 'target_class') or not self.target_class:
+            return False
+        
+        try:
+            print(f"\n→ Setting class filter to: {self.target_class}")
+            
+            # Wait a bit for page to fully load
+            time.sleep(2)
+            
+            # Try multiple strategies to find the CLASS dropdown
+            class_dropdown = None
+            
+            # Strategy 1: By ID (if it has one)
+            try:
+                class_dropdown = self.driver.find_element(By.ID, "class")
+            except:
+                pass
+            
+            # Strategy 2: By name attribute
+            if not class_dropdown:
+                try:
+                    class_dropdown = self.driver.find_element(By.NAME, "class")
+                except:
+                    pass
+            
+            # Strategy 3: Find all select elements and look for one near "CLASS" label
+            if not class_dropdown:
+                try:
+                    selects = self.driver.find_elements(By.TAG_NAME, "select")
+                    # Look through the HTML to find which select is for CLASS
+                    for sel in selects:
+                        # Check if "class" or "CLASS" is in nearby text
+                        parent_html = sel.find_element(By.XPATH, "./..").get_attribute("innerHTML")
+                        if "CLASS" in parent_html.upper():
+                            class_dropdown = sel
+                            break
+                except:
+                    pass
+            
+            # Strategy 4: Original XPath
+            if not class_dropdown:
+                try:
+                    class_dropdown = WebDriverWait(self.driver, 5).until(
+                        EC.presence_of_element_located((By.XPATH, "//label[contains(text(), 'CLASS')]/following::select[1]"))
+                    )
+                except:
+                    pass
+            
+            if not class_dropdown:
+                print(f"✗ Could not find CLASS dropdown on page\n")
+                return False
+            
+            # Now try to use Select on the dropdown
+            try:
+                select = Select(class_dropdown)
+                
+                # Print available options for debugging
+                available_options = [opt.text.strip() for opt in select.options if opt.text.strip()]
+                print(f"  Available classes: {available_options}")
+                
+                # Try exact match first
+                for option in select.options:
+                    if option.text.strip() == self.target_class:
+                        select.select_by_visible_text(option.text.strip())
+                        print(f"✓ Class filter set to: {option.text.strip()}\n")
+                        time.sleep(2)  # Wait for filter to apply
+                        return True
+                
+                # Try partial match
+                for option in select.options:
+                    if self.target_class.upper() in option.text.strip().upper():
+                        select.select_by_visible_text(option.text.strip())
+                        print(f"✓ Class filter set to: {option.text.strip()}\n")
+                        time.sleep(2)  # Wait for filter to apply
+                        return True
+                
+                print(f"✗ Could not find class matching '{self.target_class}' in: {available_options}\n")
+                return False
+                
+            except Exception as e:
+                print(f"✗ Error using Select: {e}")
+                print(f"  Element tag: {class_dropdown.tag_name}")
+                print(f"  Element HTML: {class_dropdown.get_attribute('outerHTML')[:200]}\n")
+                return False
+                
+        except Exception as e:
+            print(f"⚠ Could not set class filter: {e}\n")
+            import traceback
+            traceback.print_exc()
+            return False
 
     def setup_driver(self):
         """Initialize Chrome WebDriver with appropriate options"""
@@ -160,33 +253,7 @@ class StudentPortalScraper:
                 self.driver.get(self.portal_url)
                 time.sleep(2)
 
-             # 1. Set Class Filter if specified
-            if hasattr(self, 'target_class') and self.target_class:
-                try:
-                    # Find the CLASS dropdown
-                    class_dropdown = self.driver.find_element(
-                        By.XPATH, 
-                        "//label[contains(text(), 'CLASS')]/following::select[1]"
-                    )
-                    
-                    # Use Select to choose the class
-                    select = Select(class_dropdown)
-                    
-                    # Try exact match first
-                    try:
-                        select.select_by_visible_text(self.target_class)
-                        print(f"  ✓ Class filter set to: {self.target_class}")
-                        time.sleep(1)
-                    except:
-                        # Try partial match if exact fails
-                        for option in select.options:
-                            if self.target_class.upper() in option.text.upper():
-                                select.select_by_visible_text(option.text)
-                                print(f"  ✓ Class filter set to: {option.text}")
-                                time.sleep(1)
-                                break
-                except Exception as e:
-                    print(f"  ⚠ Could not set class filter: {e}")
+             
 
             search_box = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='text']"))
@@ -501,6 +568,9 @@ def main():
                 print(f"\n✗ Failed to login for {file_path}. Skipping...")
                 scraper.close()
                 continue
+
+            # Set class filter once after login
+            scraper.set_class_filter() 
             
             if not scraper.load_excel():
                 print(f"\n✗ Failed to load {file_path}. Skipping...")
