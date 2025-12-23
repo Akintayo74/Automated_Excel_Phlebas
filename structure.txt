@@ -1,0 +1,10 @@
+.
+├── ./.env
+├── ./.gitignore
+├── ./README.md
+├── ./requirements.txt
+├── ./structure.txt
+├── ./student_portal_scraper.py
+└── ./test_login.py
+
+1 directory, 7 files
