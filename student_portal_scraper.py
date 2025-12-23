@@ -249,13 +249,35 @@ class StudentPortalScraper:
                     continue
 
             if best_match and best_score >= 0.45:
-                # Log matches with low confidence for review
+                # Log the match with confidence score
+                if hasattr(self, 'logger'):
+                    if best_score < 0.70:
+                        self.logger.warning(
+                            f"LOW CONFIDENCE | Row {getattr(self, 'current_row', '?')} | "
+                            f"Excel: {full_name} | Portal: {best_match[1]} | "
+                            f"Admission: {best_match[0]} | Score: {best_score:.2%}"
+                        )
+                    else:
+                        self.logger.info(
+                            f"MATCHED | Row {getattr(self, 'current_row', '?')} | "
+                            f"Excel: {full_name} | Portal: {best_match[1]} | "
+                            f"Admission: {best_match[0]} | Score: {best_score:.2%}"
+                        )
+                
+                # Print to console
                 if best_score < 0.70:
                     print(f" ⚠ LOW CONFIDENCE MATCH ({best_score:.0%}) - Please verify!")
                 print(f" ✓ Best match: {best_match[1]} → {best_match[0]}")
                 return best_match[0]
-            
-            return None
+            else:
+                # Log failed matches
+                if hasattr(self, 'logger'):
+                    self.logger.error(
+                        f"NO MATCH | Row {getattr(self, 'current_row', '?')} | "
+                        f"Excel: {full_name} | Best score: {best_score:.2%} | "
+                        f"Searched: {name}"
+                    )
+                return None
 
         except Exception as e:
             print(f" ✗ Search error: {str(e)}")
@@ -300,6 +322,14 @@ class StudentPortalScraper:
         try:
             output_path = self.excel_path.replace('.xlsx', '_updated.xlsx')
             self.wb.save(output_path)
+            
+            # Log final summary
+            if hasattr(self, 'logger'):
+                self.logger.info("="*80)
+                self.logger.info(f"WORKBOOK SAVED: {output_path}")
+                self.logger.info(f"Total Updated: {total_updated} | Skipped: {total_skipped} | Errors: {total_errors}")
+                self.logger.info("="*80)
+            
             print(f"\n{'='*70}")
             print(f"✓ ENTIRE WORKBOOK SAVED: {output_path}")
             print(f"{'='*70}")
@@ -311,6 +341,8 @@ class StudentPortalScraper:
             return output_path, total_updated, total_errors
         except Exception as e:
             print(f"\n✗ Error saving workbook: {str(e)}")
+            if hasattr(self, 'logger'):
+                self.logger.error(f"Error saving workbook: {str(e)}")
             return None, total_updated, total_errors
     
     def process_students(self, start_row=3, yellow_fill=None):
@@ -352,6 +384,9 @@ class StudentPortalScraper:
                 print(f"  ⊘ Skipped (couldn't parse name)")
                 skipped_count += 1
                 continue
+
+            # Track current row for logging
+            self.current_row = row_idx 
             
             # Search and get admission number
             admission_number = self.search_student(search_name, student_name)
@@ -456,7 +491,8 @@ def main():
         print(f"{'#'*70}")
         
         scraper = StudentPortalScraper(file_path, PORTAL_URL)
-        scraper.target_class = args.student_class  # ← ADD THIS
+        scraper.target_class = args.student_class
+        scraper.setup_logging()
         
         try:
             scraper.setup_driver()
