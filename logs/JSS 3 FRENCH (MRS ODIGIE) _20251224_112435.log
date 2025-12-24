@@ -1,0 +1,74 @@
+2025-12-24 11:24:35 | INFO | ================================================================================
+2025-12-24 11:24:35 | INFO | SCRAPING SESSION STARTED: JSS 3 FRENCH (MRS ODIGIE) 
+2025-12-24 11:24:35 | INFO | Log file: ./logs/JSS 3 FRENCH (MRS ODIGIE) _20251224_112435.log
+2025-12-24 11:24:35 | INFO | ================================================================================
+2025-12-24 11:25:12 | WARNING | LOW CONFIDENCE | Row 3 | Excel: ABDULLAHI          AISHA                    AHMED | Portal: AISHA ABDULLAHI | Admission: CDSSJOS/STU/0167 | Score: 66.67%
+2025-12-24 11:25:16 | WARNING | LOW CONFIDENCE | Row 4 | Excel: ABDULRASHEED  SUHAIRAT | Portal: YETUNDE ABDULRASHEED | Admission: CDSSJOS/STU/0210 | Score: 50.00%
+2025-12-24 11:25:20 | INFO | MATCHED | Row 5 | Excel: ABUBAKAR              BALKISU | Portal: BALKISU ABUBAKAR | Admission: CDSSJOS/STU/0177 | Score: 100.00%
+2025-12-24 11:25:24 | INFO | MATCHED | Row 6 | Excel: ABUBAKAR              ZAINAB | Portal: ZAINAB ABUBAKAR | Admission: CDSSJOS/STU/0182 | Score: 100.00%
+2025-12-24 11:25:27 | ERROR | NO MATCH | Row 7 | Excel: AHESEK                    IBAKUYAT           INCHIKIDA | Best score: 0.00% | Searched: AHESEK
+2025-12-24 11:25:31 | WARNING | LOW CONFIDENCE | Row 8 | Excel: AKPOVWOVWO  IGBUNU               MIRACLE | Portal: MIRACLE AKPOVWOVWO | Admission: CDSSJOS/STU/0187 | Score: 66.67%
+2025-12-24 11:25:35 | WARNING | LOW CONFIDENCE | Row 9 | Excel: BATURE                     PAUL                       IBRAHIM | Portal: PAUL BATURE | Admission: CDSSJOS/STU/0301 | Score: 66.67%
+2025-12-24 11:25:39 | WARNING | LOW CONFIDENCE | Row 10 | Excel: CHIJIOKE                  CHIZOBA               TREASURE | Portal: CHIZOBA CHIJIOKE | Admission: CDSSJOS/STU/0311 | Score: 66.67%
+2025-12-24 11:25:43 | ERROR | NO MATCH | Row 11 | Excel: CHINWENDU          LAWRENCE | Best score: 0.00% | Searched: CHINWENDU
+2025-12-24 11:25:46 | WARNING | LOW CONFIDENCE | Row 12 | Excel: EMMANUEL         WASHAK               DAJUMA | Portal: EMMANUEL WASHAK | Admission: CDSSJOS/STU/0266 | Score: 66.67%
+2025-12-24 11:25:50 | INFO | MATCHED | Row 13 | Excel: ENEJO                    SAMSON | Portal: ENEJOH SAMSON | Admission: CDSSJOS/STU/0247 | Score: 100.00%
+2025-12-24 11:25:54 | INFO | MATCHED | Row 14 | Excel: HASSAN                NAFISAT | Portal: NAFISAT HASSAN | Admission: CDSSJOS/STU/0426 | Score: 100.00%
+2025-12-24 11:25:58 | INFO | MATCHED | Row 15 | Excel: IBRAHIM                  KHADIJA | Portal: KHADIJAT IBRAHIM | Admission: CDSSJOS/STU/0431 | Score: 100.00%
+2025-12-24 11:26:02 | WARNING | LOW CONFIDENCE | Row 16 | Excel: IBRAHIM               NUHU                     DAMBE | Portal: NUHU IBRAHIM | Admission: CDSSJOS/STU/0207 | Score: 66.67%
+2025-12-24 11:26:06 | WARNING | LOW CONFIDENCE | Row 17 | Excel: IDRIS                          KAMALUDEEN     SULEIMAN | Portal: KHAMALUDEEN IDRIS | Admission: CDSSJOS/STU/0222 | Score: 65.08%
+2025-12-24 11:26:10 | WARNING | LOW CONFIDENCE | Row 18 | Excel: IDRIS                      IBRAHIM                KHALIL | Portal: IBRAHIM IDRIS | Admission: CDSSJOS/STU/0217 | Score: 66.67%
+2025-12-24 11:26:14 | WARNING | LOW CONFIDENCE | Row 19 | Excel: KAMO                     GLORY                   IEMBER | Portal: GLORY KAMO | Admission: CDSSJOS/STU/0237 | Score: 66.67%
+2025-12-24 11:26:18 | ERROR | NO MATCH | Row 20 | Excel: KARATU                   JUSHUA                SIALLAZEKA | Best score: 27.78% | Searched: KARATU
+2025-12-24 11:26:21 | INFO | MATCHED | Row 21 | Excel: LAWAL                      ZAHARADEEN | Portal: LAWAL ZAHARADEEN | Admission: CDSSJOS/STU/0286 | Score: 100.00%
+2025-12-24 11:26:25 | INFO | MATCHED | Row 22 | Excel: MOHAMMED          AL-MUKHTAR       MOHAMMED | Portal: AL-MUKTAR MOHAMMED | Admission: CDSSJOS/STU/0242 | Score: 98.25%
+2025-12-24 11:26:29 | WARNING | LOW CONFIDENCE | Row 23 | Excel: OLADOKUN             EZEKIEL                   BOLUTIPE | Portal: OLADOKUN EZEKIEL | Admission: CDSSJOS/STU/0192 | Score: 66.67%
+2025-12-24 11:26:33 | WARNING | LOW CONFIDENCE | Row 24 | Excel: OLAWALE               LUCAS                   OLAMIDE | Portal: OLAMIDE OLAWALE | Admission: CDSSJOS/STU/0246 | Score: 66.67%
+2025-12-24 11:26:36 | ERROR | NO MATCH | Row 25 | Excel: SAMSON               JAPHETH               KANADI | Best score: 33.33% | Searched: SAMSON
+2025-12-24 11:26:40 | WARNING | LOW CONFIDENCE | Row 26 | Excel: SANI                           LAWAL | Portal: SADIYA SANI | Admission: CDSSJOS/STU/0233 | Score: 50.00%
+2025-12-24 11:26:44 | ERROR | NO MATCH | Row 27 | Excel: SHAAIBU               HABIB | Best score: 0.00% | Searched: SHAAIBU
+2025-12-24 11:26:48 | WARNING | LOW CONFIDENCE | Row 28 | Excel: SHAMSUDEEN    YUSUF                     HARUNA | Portal: SHAMSUDEEN YUSUF | Admission: CDSSJOS/STU/0296 | Score: 66.67%
+2025-12-24 11:26:52 | ERROR | NO MATCH | Row 29 | Excel: STEPHEN                  GODSDELIGHT   ELIZABETH | Best score: 33.33% | Searched: STEPHEN
+2025-12-24 11:26:56 | INFO | MATCHED | Row 30 | Excel: STEPHEN                  SONIA | Portal: SONIA STEPHEN | Admission: CDSSJOS/STU/0261 | Score: 100.00%
+2025-12-24 11:27:00 | INFO | MATCHED | Row 31 | Excel: SULEIMAN               ISHAQ | Portal: SULEIMAN ISHAQ | Admission: CDSSJOS/STU/0227 | Score: 100.00%
+2025-12-24 11:27:03 | INFO | MATCHED | Row 32 | Excel: SUNDAY                    SALOME | Portal: SUNDAY SALOME | Admission: CDSSJOS/STU/0251 | Score: 100.00%
+2025-12-24 11:27:07 | INFO | MATCHED | Row 33 | Excel: USMAN                     IBRAHIM | Portal: USMAN IBRAHIM | Admission: CDSSJOS/STU/0212 | Score: 100.00%
+2025-12-24 11:27:11 | INFO | MATCHED | Row 34 | Excel: YUSUF                    FATIMA | Portal: FATIMA YUSUF | Admission: CDSSJOS/STU/0271 | Score: 100.00%
+2025-12-24 11:27:15 | INFO | MATCHED | Row 35 | Excel: YUSUF                    SHAMSUDEEN | Portal: SHAMSUDEEN YUSUF | Admission: CDSSJOS/STU/0296 | Score: 100.00%
+2025-12-24 11:27:19 | INFO | MATCHED | Row 36 | Excel: ZAMANI                JERRY | Portal: JERRY ZAMANI | Admission: CDSSJOS/STU/0291 | Score: 100.00%
+2025-12-24 11:27:22 | ERROR | NO MATCH | Row 37 | Excel: ZAKARIA                  EVELYN | Best score: 0.00% | Searched: ZAKARIA
+2025-12-24 11:27:26 | ERROR | NO MATCH | Row 38 | Excel: MOMOH                  FAMIDAT          ONIZE | Best score: 0.00% | Searched: MOMOH
+2025-12-24 11:27:30 | INFO | MATCHED | Row 3 | Excel: ADAMU                IDRIS | Portal: ADAMU IDRIS | Admission: CDSSJOS/STU/0082 | Score: 100.00%
+2025-12-24 11:27:34 | WARNING | LOW CONFIDENCE | Row 4 | Excel: ALLEN                   AARON                    YAZU | Portal: ALLEN AARON | Admission: CDSSJOS/STU/0027 | Score: 66.67%
+2025-12-24 11:27:38 | INFO | MATCHED | Row 5 | Excel: AMADIN                DANIEL | Portal: DANIEL AMADIN | Admission: CDSSJOS/STU/0366 | Score: 100.00%
+2025-12-24 11:27:42 | ERROR | NO MATCH | Row 6 | Excel: BABAGANA         FATIMA | Best score: 0.00% | Searched: BABAGANA
+2025-12-24 11:27:45 | WARNING | LOW CONFIDENCE | Row 7 | Excel: BATURE               PETER                       IBRAHIM | Portal: PETER BATURE | Admission: CDSSJOS/STU/0147 | Score: 66.67%
+2025-12-24 11:27:49 | WARNING | LOW CONFIDENCE | Row 8 | Excel: BITRUS                   BENJAMIN           BOMNAD | Portal: BENJAMIN BITRUS | Admission: CDSSJOS/STU/0361 | Score: 66.67%
+2025-12-24 11:27:53 | INFO | MATCHED | Row 9 | Excel: DAUDA                  PATIENCE | Portal: PATIENCE DAUDA | Admission: CDSSJOS/STU/0042 | Score: 100.00%
+2025-12-24 11:27:57 | WARNING | LOW CONFIDENCE | Row 10 | Excel: DAVID                   OJONUGWA        ANNABEL | Portal: ANNABEL DAVID | Admission: CDSSJOS/STU/0371 | Score: 66.67%
+2025-12-24 11:28:01 | WARNING | LOW CONFIDENCE | Row 11 | Excel: DOCTOR                PURITY                    AWIN | Portal: PURITY DOCTOR | Admission: CDSSJOS/STU/0052 | Score: 66.67%
+2025-12-24 11:28:04 | WARNING | LOW CONFIDENCE | Row 12 | Excel: EGBE                        ELIZABETH           DOTUCHOWO | Portal: ELIZABETH EGBE | Admission: CDSSJOS/STU/0376 | Score: 66.67%
+2025-12-24 11:28:08 | WARNING | LOW CONFIDENCE | Row 13 | Excel: EMMANUEL       CHIDERA                  PETER | Portal: CHIDERA EMMANUEL | Admission: CDSSJOS/STU/0062 | Score: 66.67%
+2025-12-24 11:28:12 | WARNING | LOW CONFIDENCE | Row 14 | Excel: ENOCH                  JAYSON                    DEWENG | Portal: ENOCH JAYSON | Admission: CDSSJOS/STU/0087 | Score: 66.67%
+2025-12-24 11:28:16 | WARNING | LOW CONFIDENCE | Row 15 | Excel: GAMBO                 KHALIFA                SAMAILA | Portal: KHALIFA GAMBO | Admission: CDSSJOS/STU/0067 | Score: 66.67%
+2025-12-24 11:28:20 | INFO | MATCHED | Row 16 | Excel: GAMBO               NATHANIEL | Portal: NATHANIEL GAMBO | Admission: CDSSJOS/STU/0072 | Score: 100.00%
+2025-12-24 11:28:23 | WARNING | LOW CONFIDENCE | Row 17 | Excel: GOODHEAD       BENEDICTA             ADAH | Portal: BENEDICTHA GOODHEAD | Admission: CDSSJOS/STU/0077 | Score: 64.91%
+2025-12-24 11:28:27 | INFO | MATCHED | Row 18 | Excel: HAGGAI                 VICTORY | Portal: HAGGAI VICTORY | Admission: CDSSJOS/STU/0152 | Score: 100.00%
+2025-12-24 11:28:31 | INFO | MATCHED | Row 19 | Excel: IBRAHIM             AMINA | Portal: AMINA IBRAHIM | Admission: CDSSJOS/STU/0162 | Score: 100.00%
+2025-12-24 11:28:35 | INFO | MATCHED | Row 20 | Excel: IBRAHIM             AMIRAT | Portal: IBRAHIM AMIRA | Admission: CDSSJOS/STU/0157 | Score: 95.45%
+2025-12-24 11:28:39 | WARNING | LOW CONFIDENCE | Row 21 | Excel: ISAAC                   HAPPINESS           KUNPIBIRMA | Portal: HAPPINESS ISAAC | Admission: CDSSJOS/STU/0391 | Score: 66.67%
+2025-12-24 11:28:43 | WARNING | LOW CONFIDENCE | Row 22 | Excel: ISHOLA                ELIJA                        OKIKIOLUWA | Portal: ISHOLA ELIJAH | Admission: CDSSJOS/STU/0057 | Score: 66.67%
+2025-12-24 11:28:47 | INFO | MATCHED | Row 23 | Excel: JAMES                     RIFKATU | Portal: RIFKATU JAMES | Admission: CDSSJOS/STU/0351 | Score: 100.00%
+2025-12-24 11:28:50 | INFO | MATCHED | Row 24 | Excel: JIBRIN                    AFNAN | Portal: AFNAN JIBRIN | Admission: CDSSJOS/STU/0097 | Score: 100.00%
+2025-12-24 11:28:54 | ERROR | NO MATCH | Row 25 | Excel: JOSEPH                  AYOMIDE               DAVID | Best score: 0.00% | Searched: JOSEPH
+2025-12-24 11:28:58 | WARNING | LOW CONFIDENCE | Row 26 | Excel: JOSHUA               NORO                       SAMBO | Portal: JOSHUA NORO | Admission: CDSSJOS/STU/0117 | Score: 66.67%
+2025-12-24 11:29:01 | WARNING | LOW CONFIDENCE | Row 27 | Excel: MUAZU                   MUHAMMED | Portal: LUKMAN MUAZU | Admission: CDSSJOS/STU/0107 | Score: 50.00%
+2025-12-24 11:29:05 | ERROR | NO MATCH | Row 28 | Excel: MUSA                      AISHA                    ISAH | Best score: 33.33% | Searched: MUSA
+2025-12-24 11:29:09 | ERROR | NO MATCH | Row 29 | Excel: NYAMBIYA         KINGSLEY                ISHAKU | Best score: 0.00% | Searched: NYAMBIYA
+2025-12-24 11:29:13 | ERROR | NO MATCH | Row 30 | Excel: ODUTAN                DAVIAN                TEMITOPE | Best score: 0.00% | Searched: ODUTAN
+2025-12-24 11:29:16 | WARNING | LOW CONFIDENCE | Row 31 | Excel: OGUNREMI        PRECIOUS              BIDEMI | Portal: PRECIOUS OGUNREMI | Admission: CDSSJOS/STU/0122 | Score: 66.67%
+2025-12-24 11:29:20 | ERROR | NO MATCH | Row 32 | Excel: OLODODO             KEMISOLA            KHADIJA | Best score: 0.00% | Searched: OLODODO
+2025-12-24 11:29:24 | WARNING | LOW CONFIDENCE | Row 33 | Excel: OLUFEMI               ADEGBOLA            DANIEL | Portal: ADEGBOLA DANIEL | Admission: CDSSJOS/STU/0037 | Score: 66.67%
+2025-12-24 11:29:27 | WARNING | LOW CONFIDENCE | Row 34 | Excel: PHILIP                  DANIEL                    AUTA | Portal: DANIEL PHILIP | Admission: CDSSJOS/STU/0127 | Score: 66.67%
+2025-12-24 11:29:31 | ERROR | NO MATCH | Row 35 | Excel: UMANA                 JASON                     MARK | Best score: 0.00% | Searched: UMANA
+2025-12-24 11:29:35 | INFO | MATCHED | Row 36 | Excel: USMAN                 YAHUZA | Portal: YAHUZA USMAN | Admission: CDSSJOS/STU/0137 | Score: 100.00%
