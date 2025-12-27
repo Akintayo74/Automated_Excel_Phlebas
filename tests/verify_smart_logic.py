@@ -8,28 +8,23 @@ class TestSmartLogic(unittest.TestCase):
     def setUp(self):
         self.matcher = SmartMatcher()
 
-    def test_permutations_basic(self):
+    def test_search_terms_basic(self):
         name = "JOHN DOE"
-        perms = self.matcher.generate_permutations(name)
-        # Expected: "JOHN DOE", "DOE JOHN", "JOHN"
-        self.assertIn("JOHN DOE", perms)
-        self.assertIn("DOE JOHN", perms)
-        self.assertIn("JOHN", perms)
+        terms = self.matcher.generate_search_terms(name)
+        # Expected: ["JOHN", "DOE"]
+        self.assertEqual(terms, ["JOHN", "DOE"])
 
-    def test_permutations_three_names(self):
+    def test_search_terms_three_names(self):
         name = "JOHN MIDDLE DOE"
-        perms = self.matcher.generate_permutations(name)
-        # Expected: "JOHN MIDDLE DOE", "DOE MIDDLE JOHN", "JOHN", "JOHN DOE", "DOE JOHN"
-        # The logic implementation:
-        # 1. Original: JOHN MIDDLE DOE
-        # 2. Reversed: DOE MIDDLE JOHN
-        # 3. First Part: JOHN (if >=2 parts)
-        # 4. First+Last: JOHN DOE, DOE JOHN (if >2 parts)
+        terms = self.matcher.generate_search_terms(name)
+        # Expected: ["JOHN", "MIDDLE", "DOE"]
+        self.assertEqual(terms, ["JOHN", "MIDDLE", "DOE"])
         
-        self.assertIn("JOHN MIDDLE DOE", perms)
-        self.assertIn("DOE MIDDLE JOHN", perms)
-        self.assertIn("JOHN DOE", perms)
-        self.assertIn("DOE JOHN", perms)
+    def test_search_terms_duplicates(self):
+        name = "JOHN JOHN DOE"
+        terms = self.matcher.generate_search_terms(name)
+        # Expected: ["JOHN", "DOE"] (unique only)
+        self.assertEqual(terms, ["JOHN", "DOE"])
 
     def test_log_parser(self):
         # Create dummy log

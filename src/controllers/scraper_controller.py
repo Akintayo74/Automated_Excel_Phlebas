@@ -1,5 +1,6 @@
 import time
 import traceback
+import os
 from src.models.excel_repository import ExcelRepository
 from src.models.student_matcher import StudentMatcher
 from src.models.portal_repository import PortalRepository
@@ -158,21 +159,24 @@ class ScraperController:
             
             # --- Smart Retry Loop (if no good match) ---
             if (not best_match or score < 0.45):
-                print(f"    ... Standard search failed. Trying permutations...")
-                permutations = self.smart_matcher.generate_permutations(student_name)
+                print(f"    ... Standard search failed. Trying individual name components...")
+                search_terms = self.smart_matcher.generate_search_terms(student_name)
                 
-                for perm in permutations:
-                    if perm == search_name: continue # Skip what we just did
+                for term in search_terms:
+                    if term.lower() == search_name.lower(): continue # Skip what we just did
                     
-                    print(f"    ? Trying: {perm}")
-                    perm_results = self.portal_repo.search_students(perm)
-                    perm_match, perm_score = self.matcher.find_best_match(student_name, perm_results)
+                    print(f"    ? Trying: {term}")
+                    term_results = self.portal_repo.search_students(term)
                     
-                    if perm_match and perm_score >= 0.70: # Higher threshold for permutations to be safe
-                        best_match = perm_match
-                        score = perm_score
-                        search_name = perm # Update for logging what actually worked
-                        print(f"    ✓ Smart Matches found!")
+                    # IMPORTANT: We match against the ORIGINAL FULL NAME logic from Excel,
+                    # but using the new results found by the single key term.
+                    term_match, term_score = self.matcher.find_best_match(student_name, term_results)
+                    
+                    if term_match and term_score >= 0.70: # High threshold for safety
+                        best_match = term_match
+                        score = term_score
+                        search_name = term # Update for logging what actually worked
+                        print(f"    ✓ Smart Match found via '{term}'!")
                         break
                         
             # Log results (logic was in search_student in original)
