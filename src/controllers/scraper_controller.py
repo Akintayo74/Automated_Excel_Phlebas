@@ -182,11 +182,17 @@ class ScraperController:
             # Log results (logic was in search_student in original)
             self._log_match_result(student_name, best_match, score, row_idx, search_name)
 
-            if best_match and score >= 0.45:
+            if best_match:
+                # User requested updating even if low confidence
+                if score < 0.45:
+                    print(f"  ⚠ Forced Update (Low Confidence: {score:.0%})")
+                
                 admission_number, display_name = best_match
                 self.excel_repo.update_student(sheet_name, row_idx, admission_number)
                 updated_count += 1
-                print(f"  ✓ Updated in Excel")
+                
+                if score >= 0.45:
+                    print(f"  ✓ Updated in Excel")
             else:
                 error_count += 1
                 
@@ -204,22 +210,34 @@ class ScraperController:
     def _log_match_result(self, full_name, best_match, best_score, row_idx, search_name):
         if not self.logger: return
         
-        if best_match and best_score >= 0.45:
+        if best_match:
             admission, portal_name = best_match
-            if best_score < 0.70:
-                self.logger.warning(
-                    f"LOW CONFIDENCE | Row {row_idx} | "
-                    f"Excel: {full_name} | Portal: {portal_name} | "
-                    f"Admission: {admission} | Score: {best_score:.2%}"
-                )
-                print(f" ⚠ LOW CONFIDENCE MATCH ({best_score:.0%}) - Please verify!")
-            else:
+            
+            if best_score >= 0.70:
                 self.logger.info(
                     f"MATCHED | Row {row_idx} | "
                     f"Excel: {full_name} | Portal: {portal_name} | "
                     f"Admission: {admission} | Score: {best_score:.2%}"
                 )
                 print(f" ✓ Best match: {portal_name} → {admission}")
+                
+            elif 0.45 <= best_score < 0.70:
+                self.logger.warning(
+                    f"LOW CONFIDENCE | Row {row_idx} | "
+                    f"Excel: {full_name} | Portal: {portal_name} | "
+                    f"Admission: {admission} | Score: {best_score:.2%}"
+                )
+                print(f" ⚠ LOW CONFIDENCE MATCH ({best_score:.0%}) - Please verify!")
+                
+            else:
+                # Very low confidence but forcing update as requested
+                self.logger.warning(
+                    f"FORCED UPDATE (VERY LOW CONFIDENCE) | Row {row_idx} | "
+                    f"Excel: {full_name} | Portal: {portal_name} | "
+                    f"Admission: {admission} | Score: {best_score:.2%}"
+                )
+                print(f" ⚠ VERY LOW CONFIDENCE ({best_score:.0%}) - Updating anyway!")
+                
         else:
             self.logger.error(
                 f"NO MATCH | Row {row_idx} | "

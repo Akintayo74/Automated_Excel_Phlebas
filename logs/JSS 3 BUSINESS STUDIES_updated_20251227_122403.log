@@ -1,0 +1,12 @@
+2025-12-27 12:24:03 | INFO | ================================================================================
+2025-12-27 12:24:03 | INFO | SCRAPING SESSION STARTED: JSS 3 BUSINESS STUDIES_updated
+2025-12-27 12:24:03 | INFO | Log file: ./logs/JSS 3 BUSINESS STUDIES_updated_20251227_122403.log
+2025-12-27 12:24:03 | INFO | ================================================================================
+2025-12-27 12:24:43 | ERROR | NO MATCH | Row 7 | Excel: AHESEK                    IBAKUYAT           INCHIKIDA | Best score: 0.00% | Searched: AHESEK
+2025-12-27 12:24:52 | INFO | MATCHED | Row 11 | Excel: CHINWENDU          LAWRENCE | Portal: LAWRENCE CHIWENDU | Admission: CDSSJOS/STU/0316 | Score: 97.06%
+2025-12-27 12:25:03 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 20 | Excel: KARATU                   JUSHUA                SIALLAZEKA | Portal: S. JOSHUA | Admission: CDSSJOS/STU/0232 | Score: 27.78%
+2025-12-27 12:25:15 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 25 | Excel: SAMSON               JAPHETH               KANADI | Portal: K. SAMSON | Admission: CDSSJOS/STU/0276 | Score: 33.33%
+2025-12-27 12:25:24 | INFO | MATCHED | Row 27 | Excel: SHAAIBU               HABIB | Portal: SHUAIBU HABIB | Admission: CDSSJOS/STU/0197 | Score: 92.86%
+2025-12-27 12:25:36 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 29 | Excel: STEPHEN                  GODSDELIGHT   ELIZABETH | Portal: SONIA STEPHEN | Admission: CDSSJOS/STU/0261 | Score: 33.33%
+2025-12-27 12:25:45 | INFO | MATCHED | Row 37 | Excel: ZAKARIA                  EVELYN | Portal: EVELYN ZAKARIYA | Admission: CDSSJOS/STU/0436 | Score: 96.67%
+2025-12-27 12:25:57 | ERROR | NO MATCH | Row 38 | Excel: MOMOH                  FAMIDAT          ONIZE | Best score: 0.00% | Searched: MOMOH

@@ -11,19 +11,25 @@ class SmartMatcher:
 
     def generate_search_terms(self, full_name):
         """
-        Generates a list of individual name components to try as search terms.
-        Splits by space and returns unique, valid words (>= 2 chars).
+        Generates a list of name variations to try as search terms.
+        Includes the full cleaned name and individual valid name parts.
         """
-        if not full_name:
-            return []
-            
-        # Split by whitespace to get full words (e.g. "Adamu", "Lee")
-        parts = [p for p in full_name.strip().split() if len(p) >= 2]
+        import re
+        if not full_name: return []
         
-        if not parts:
-            return []
-            
-        # Return unique parts, preserving order (left-to-right is usually most significant)
-        unique_terms = list(dict.fromkeys(parts))
+        # Normalize: Remove extra spaces, uppercase
+        full_name = re.sub(r'\s+', ' ', full_name.strip().upper())
+        parts = full_name.split()
         
-        return unique_terms
+        perms = []
+        
+        # 1. Original (cleaned)
+        perms.append(full_name)
+        
+        # 2. Individual parts (First, Middle, Last)
+        for part in parts:
+            if len(part) > 2: # Ignore initials
+                perms.append(part)
+        
+        # Return unique parts, preserving order
+        return list(dict.fromkeys(perms))
