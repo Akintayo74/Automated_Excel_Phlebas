@@ -39,7 +39,7 @@ class ExcelRepository:
 
     def save(self):
         try:
-            output_path = self.file_path.replace('.xlsx', '_updated.xlsx')
+            output_path = self.file_path.replace('.xlsx', ' (updated_and_verified).xlsx')
             self.wb.save(output_path)
             return output_path
         except Exception as e:

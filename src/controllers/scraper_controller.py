@@ -8,6 +8,8 @@ from src.services.auth_manager import AuthManager
 from src.services.class_filter_manager import ClassFilterManager
 from src.views.logger_view import LoggerView
 from src.utils.name_cleaner import clean_name
+from src.utils.log_parser import LogParser
+from src.services.smart_matcher import SmartMatcher
 
 class ScraperController:
     def __init__(self, excel_path, portal_url, username, password, target_class=None):
@@ -24,13 +26,25 @@ class ScraperController:
         self.class_filter_manager = ClassFilterManager(self.browser_manager)
         self.portal_repo = PortalRepository(self.browser_manager, portal_url)
         self.matcher = StudentMatcher()
+        self.smart_matcher = SmartMatcher()
         self.logger_view = LoggerView(excel_path)
         self.logger = None
 
     def run(self):
+        # 1. Setup Logging
         log_file, self.logger = self.logger_view.setup_logging()
         self.matcher.logger = self.logger
         
+        # 2. Parse Previous Logs (if any)
+        latest_log = LogParser.find_latest_log_for_excel(self.excel_path)
+        previous_statuses = {}
+        if latest_log:
+            print(f"ℹ Found previous log: {os.path.basename(latest_log)}")
+            previous_statuses = LogParser.parse_log_file(latest_log)
+            print(f"ℹ Loaded {len(previous_statuses)} previous statuses.")
+        else:
+            print("ℹ No previous log found. Starting fresh.")
+
         try:
             self.browser_manager.setup()
             
@@ -57,7 +71,7 @@ class ScraperController:
                 print(f"  PROCESSING SHEET: {sheet_name}")
                 print(f"{'='*70}")
                 
-                updated, skipped, errors = self.process_sheet(sheet_name)
+                updated, skipped, errors = self.process_sheet(sheet_name, previous_statuses)
                 
                 total_updated += updated
                 total_skipped += skipped
@@ -89,7 +103,7 @@ class ScraperController:
         finally:
             self.browser_manager.close()
 
-    def process_sheet(self, sheet_name):
+    def process_sheet(self, sheet_name, previous_statuses):
         updated_count = 0
         skipped_count = 0
         error_count = 0
@@ -114,6 +128,22 @@ class ScraperController:
                 skipped_count += 1
                 continue
             
+            # Check Log Status
+            log_status = previous_statuses.get(row_idx)
+            
+            if log_status == LogParser.STATUS_INFO:
+                print(f"  ⏭ Skipped (Previously Matched - INFO)")
+                skipped_count += 1
+                continue
+            
+            elif log_status == LogParser.STATUS_WARNING:
+                print(f"  ⚠ Re-checking (Previous Low Confidence - WARNING)")
+                # Proceed to search code below...
+                
+            elif log_status == LogParser.STATUS_ERROR:
+                print(f"  ↻ Retrying with Smart Matching (Previous Error)")
+                # Proceed to search code + enable smart permutation retry
+            
             # Clean and search
             search_name = clean_name(student_name)
             
@@ -122,12 +152,29 @@ class ScraperController:
                 skipped_count += 1
                 continue
             
-            # Use PortalRepository to search
+            # --- Standard Search ---
             portal_results = self.portal_repo.search_students(search_name)
-            
-            # Use Matcher to find best match
             best_match, score = self.matcher.find_best_match(student_name, portal_results)
             
+            # --- Smart Retry Loop (if no good match) ---
+            if (not best_match or score < 0.45):
+                print(f"    ... Standard search failed. Trying permutations...")
+                permutations = self.smart_matcher.generate_permutations(student_name)
+                
+                for perm in permutations:
+                    if perm == search_name: continue # Skip what we just did
+                    
+                    print(f"    ? Trying: {perm}")
+                    perm_results = self.portal_repo.search_students(perm)
+                    perm_match, perm_score = self.matcher.find_best_match(student_name, perm_results)
+                    
+                    if perm_match and perm_score >= 0.70: # Higher threshold for permutations to be safe
+                        best_match = perm_match
+                        score = perm_score
+                        search_name = perm # Update for logging what actually worked
+                        print(f"    ✓ Smart Matches found!")
+                        break
+                        
             # Log results (logic was in search_student in original)
             self._log_match_result(student_name, best_match, score, row_idx, search_name)
 
