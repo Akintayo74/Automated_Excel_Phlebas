@@ -32,11 +32,34 @@ class ScraperController:
         self.logger = None
 
     def run(self):
+        # 0. Single Source of Truth Logic
+        # If user passed 'file.xlsx' but 'file_updated.xlsx' exists, use the updated one
+        # to ensure we don't lose previous data.
+        if '_updated' not in self.excel_path:
+            updated_path = self.excel_path.replace('.xlsx', '_updated.xlsx')
+            if os.path.exists(updated_path):
+                print(f"ℹ Auto-switching to existing updated file: {os.path.basename(updated_path)}")
+                self.excel_path = updated_path
+
         # 1. Setup Logging
         log_file, self.logger = self.logger_view.setup_logging()
         self.matcher.logger = self.logger
         
         # 2. Parse Previous Logs (if any)
+        # We need to find logs for BOTH the 'file_updated' name and the original 'file' name
+        # to have a complete history.
+        
+        # Strategy: LogParser now takes the current path.
+        # But if we just switched to _updated, we might miss logs from the original run.
+        # Let's trust LogParser to find relevant logs if they share a common prefix timestamp/pattern
+        # or we just rely on the most recent log regardless of precise name match if possible?
+        # Simpler: The LogParser currently matches 'stem_*'.
+        # file_updated matches file_updated_*.
+        # file matches file_*.
+        
+        # If we switched to file_updated, we only see file_updated logs.
+        # This is acceptable if we assume the user's workflow is linear.
+        
         latest_log = LogParser.find_latest_log_for_excel(self.excel_path)
         previous_statuses = {}
         if latest_log:

@@ -1,0 +1,39 @@
+2025-12-29 15:11:12 | INFO | ================================================================================
+2025-12-29 15:11:12 | INFO | SCRAPING SESSION STARTED: JSS1 DT_updated
+2025-12-29 15:11:12 | INFO | Log file: ./logs/JSS1 DT_updated_20251229_151111.log
+2025-12-29 15:11:12 | INFO | ================================================================================
+2025-12-29 15:12:03 | ERROR | NO MATCH | Row 3 | Excel:  BIELOSE                   PROVIDENCE | Best score: 0.00% | Searched: BIELOSE
+2025-12-29 15:12:16 | ERROR | NO MATCH | Row 10 | Excel: AHMAD                    SALAHUDEEN         YUSUF | Best score: 0.00% | Searched: AHMAD
+2025-12-29 15:12:29 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 12 | Excel: AMINU                       MUJIBAD                KEMISOLA | Portal: AMINU ABDULLAHI | Admission: CDSSJOS/STU/259276AJ | Score: 33.33%
+2025-12-29 15:12:41 | ERROR | NO MATCH | Row 14 | Excel: ASMAKIA                 PRAISE                      DIELUMO | Best score: 0.00% | Searched: ASMAKIA
+2025-12-29 15:12:54 | ERROR | NO MATCH | Row 16 | Excel: EGWU                       GODSPOWER             PAUL | Best score: 0.00% | Searched: EGWU
+2025-12-29 15:13:07 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 22 | Excel: HYGINUS                  DANUEMMAN          ANTHONY | Portal: DANGPUENAAN HYGINUS | Admission: CDSSJOS/STU/257706AJ | Score: 33.33%
+2025-12-29 15:13:20 | ERROR | NO MATCH | Row 26 | Excel: JIBO                           SAINT                          JOSEPH | Best score: 0.00% | Searched: JIBO
+2025-12-29 15:13:33 | ERROR | NO MATCH | Row 31 | Excel: MATTHEW             THANKGOD                 NKPANG | Best score: 0.00% | Searched: MATTHEW
+2025-12-29 15:13:45 | ERROR | NO MATCH | Row 33 | Excel: MICHEAL                BRIGHT                          ONOBIZA | Best score: 0.00% | Searched: MICHEAL
+2025-12-29 15:13:59 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 35 | Excel: MOHAMMED        MUSTAPHA                 ADAMU | Portal: SUMMAIYA MOHAMMED | Admission: CDSSJOS/STU/258566IJ | Score: 33.33%
+2025-12-29 15:14:11 | ERROR | NO MATCH | Row 36 | Excel: NANNIM               SELNAN                          SAMANJA | Best score: 0.00% | Searched: NANNIM
+2025-12-29 15:14:24 | ERROR | NO MATCH | Row 40 | Excel: SAMAILA               LUCKY                            NNASI | Best score: 0.00% | Searched: SAMAILA
+2025-12-29 15:14:38 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 41 | Excel: SHEHU                    NANA                            KHADIJA | Portal: BALA SHEHU | Admission: CDSSJOS/STU/257802BG | Score: 33.33%
+2025-12-29 15:14:47 | ERROR | NO MATCH | Row 42 | Excel: SIKIRU                     NIMATA | Best score: 0.00% | Searched: SIKIRU
+2025-12-29 15:15:00 | ERROR | NO MATCH | Row 44 | Excel: TASUNDA              EMMANUEL                JOHN | Best score: 0.00% | Searched: TASUNDA
+2025-12-29 15:15:10 | ERROR | NO MATCH | Row 45 | Excel: THOMAS                SETH | Best score: 0.00% | Searched: THOMAS
+2025-12-29 15:15:23 | ERROR | NO MATCH | Row 48 | Excel: YOHANNA             ROSELINE                  NANMAN | Best score: 0.00% | Searched: YOHANNA
+2025-12-29 15:15:36 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 49 | Excel: FRANK                   VICTOR                       TITUS | Portal: ERIKAVERA FRANK | Admission: CDSSJOS/STU/255887BC | Score: 33.33%
+2025-12-29 15:15:49 | ERROR | NO MATCH | Row 50 | Excel: MARUFF                AUWAL                      ADETAYO | Best score: 0.00% | Searched: MARUFF
+2025-12-29 15:15:59 | ERROR | NO MATCH | Row 51 | Excel: DOSUMO              WHAIDAT                   | Best score: 0.00% | Searched: DOSUMO
+2025-12-29 15:16:13 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 52 | Excel: ALIYU                     KHADIJA                     ABBA | Portal: ALIYU USMAN | Admission: CDSSJOS/STU/257813DE | Score: 33.33%
+2025-12-29 15:16:23 | ERROR | NO MATCH | Row 3 | Excel: ABDULKARIM            MOHAMMED | Best score: 0.00% | Searched: ABDULKARIM
+2025-12-29 15:16:35 | ERROR | NO MATCH | Row 5 | Excel: ADESOKON                AYODIMEJI      DAVID | Best score: 0.00% | Searched: ADESOKON
+2025-12-29 15:16:48 | ERROR | NO MATCH | Row 12 | Excel: BALI                              BERYL              YASEL | Best score: 0.00% | Searched: BALI
+2025-12-29 15:17:01 | ERROR | NO MATCH | Row 16 | Excel: EBGE                            SUCCESS        OBOTU | Best score: 0.00% | Searched: EBGE
+2025-12-29 15:17:10 | ERROR | NO MATCH | Row 18 | Excel: GIDEON                      SIHIYONA | Best score: 0.00% | Searched: GIDEON
+2025-12-29 15:17:24 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 23 | Excel: IDRIS                         MOHAMMED        ALHASSAN | Portal: IDRIS ABUBAKAR | Admission: CDSSJOS/STU/258422AJ | Score: 33.33%
+2025-12-29 15:17:37 | ERROR | NO MATCH | Row 24 | Excel: IGBOKE                     GOSHEN      ONYINYEOCHUKWU | Best score: 0.00% | Searched: IGBOKE
+2025-12-29 15:17:49 | ERROR | NO MATCH | Row 25 | Excel: IGONI                       MIRACLE                KINSMAN | Best score: 0.00% | Searched: IGONI
+2025-12-29 15:17:59 | ERROR | NO MATCH | Row 27 | Excel: ISHAKU                    WALID | Best score: 0.00% | Searched: ISHAKU
+2025-12-29 15:18:12 | ERROR | NO MATCH | Row 30 | Excel: KACHALLA             HAIDAR                   ALIYU | Best score: 0.00% | Searched: KACHALLA
+2025-12-29 15:18:25 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 32 | Excel: MOHAMMED       AHMAD                    AISHA | Portal: SUMMAIYA MOHAMMED | Admission: CDSSJOS/STU/258566IJ | Score: 33.33%
+2025-12-29 15:18:43 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 33 | Excel: MOHAMMED      FATIMA                    ALIYU | Portal: SUMMAIYA MOHAMMED | Admission: CDSSJOS/STU/258566IJ | Score: 33.33%
+2025-12-29 15:18:55 | ERROR | NO MATCH | Row 35 | Excel: NABOTH               EMMANUEL            FOM | Best score: 0.00% | Searched: NABOTH
+2025-12-29 15:19:08 | ERROR | NO MATCH | Row 36 | Excel: OBINANI              CHIOMA                   ANNA | Best score: 0.00% | Searched: OBINANI

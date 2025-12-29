@@ -1,0 +1,47 @@
+2025-12-27 12:44:34 | INFO | ================================================================================
+2025-12-27 12:44:34 | INFO | SCRAPING SESSION STARTED: JSS 3 CLASSES BASIC SCIENCE (MRS OTIJI ELIZABETH)_updated
+2025-12-27 12:44:34 | INFO | Log file: ./logs/JSS 3 CLASSES BASIC SCIENCE (MRS OTIJI ELIZABETH)_updated_20251227_124434.log
+2025-12-27 12:44:34 | INFO | ================================================================================
+2025-12-27 12:45:08 | ERROR | NO MATCH | Row 7 | Excel: AHESEK                    IBAKUYAT           INCHIKIDA | Best score: 0.00% | Searched: AHESEK
+2025-12-27 12:45:17 | INFO | MATCHED | Row 11 | Excel: CHINWENDU          LAWRENCE | Portal: LAWRENCE CHIWENDU | Admission: CDSSJOS/STU/0316 | Score: 97.06%
+2025-12-27 12:45:29 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 20 | Excel: KARATU                   JUSHUA                SIALLAZEKA | Portal: S. JOSHUA | Admission: CDSSJOS/STU/0232 | Score: 27.78%
+2025-12-27 12:45:41 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 25 | Excel: SAMSON               JAPHETH               KANADI | Portal: K. SAMSON | Admission: CDSSJOS/STU/0276 | Score: 33.33%
+2025-12-27 12:45:50 | INFO | MATCHED | Row 27 | Excel: SHAAIBU               HABIB | Portal: SHUAIBU HABIB | Admission: CDSSJOS/STU/0197 | Score: 92.86%
+2025-12-27 12:46:02 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 29 | Excel: STEPHEN                  GODSDELIGHT   ELIZABETH | Portal: SONIA STEPHEN | Admission: CDSSJOS/STU/0261 | Score: 33.33%
+2025-12-27 12:46:11 | INFO | MATCHED | Row 37 | Excel: ZAKARIA                  EVELYN | Portal: EVELYN ZAKARIYA | Admission: CDSSJOS/STU/0436 | Score: 96.67%
+2025-12-27 12:46:22 | ERROR | NO MATCH | Row 38 | Excel: MOMOH                  FAMIDAT          ONIZE | Best score: 0.00% | Searched: MOMOH
+2025-12-27 12:46:32 | INFO | MATCHED | Row 6 | Excel: BABAGANA         FATIMA | Portal: FATIMA BABANGANA | Admission: CDSSJOS/STU/0032 | Score: 97.06%
+2025-12-27 12:46:43 | ERROR | NO MATCH | Row 25 | Excel: JOSEPH                  AYOMIDE               DAVID | Best score: 0.00% | Searched: JOSEPH
+2025-12-27 12:46:55 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 28 | Excel: MUSA                      AISHA                    ISAH | Portal: UMAR MUSA | Admission: CDSSJOS/STU/0203 | Score: 33.33%
+2025-12-27 12:47:07 | ERROR | NO MATCH | Row 29 | Excel: NYAMBIYA         KINGSLEY                ISHAKU | Best score: 0.00% | Searched: NYAMBIYA
+2025-12-27 12:47:19 | ERROR | NO MATCH | Row 30 | Excel: ODUTAN                DAVIAN                TEMITOPE | Best score: 0.00% | Searched: ODUTAN
+2025-12-27 12:47:31 | ERROR | NO MATCH | Row 32 | Excel: OLODODO             KEMISOLA            KHADIJA | Best score: 0.00% | Searched: OLODODO
+2025-12-27 12:47:43 | ERROR | NO MATCH | Row 35 | Excel: UMANA                 JASON                     MARK | Best score: 0.00% | Searched: UMANA
+2025-12-27 12:47:54 | ERROR | NO MATCH | Row 38 | Excel: IGBOKE                 PEARL                     CHIMAOBIM | Best score: 0.00% | Searched: IGBOKE
+2025-12-27 12:48:06 | ERROR | NO MATCH | Row 39 | Excel: INALEGWU          DANIEL                   OYALE | Best score: 0.00% | Searched: INALEGWU
+2025-12-27 12:48:18 | ERROR | NO MATCH | Row 40 | Excel: MICHEAL              TAMARADINYEFA         GODBLESS | Best score: 0.00% | Searched: MICHEAL
+2025-12-27 12:48:30 | ERROR | NO MATCH | Row 41 | Excel: MICHEAL              EMMANUELLA         AKERE | Best score: 0.00% | Searched: MICHEAL
+2025-12-27 12:48:42 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 42 | Excel: AYUBA                  WANDO                     FAVOUR | Portal: AYUBA COLLINS | Admission: CDSSJOS/STU/0253 | Score: 33.33%
+2025-12-27 12:48:53 | ERROR | NO MATCH | Row 16 | Excel: EZEKEIL              NEHEMIAH          ZABRENG | Best score: 0.00% | Searched: EZEKEIL
+2025-12-27 12:49:05 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 18 | Excel: GOMO                AHMADU             UMMISALMA | Portal: U. AHMADU | Admission: CDSSJOS/STU/0230 | Score: 33.33%
+2025-12-27 12:49:17 | ERROR | NO MATCH | Row 24 | Excel: MICHEAL            DAVID                    BISANA | Best score: 0.00% | Searched: MICHEAL
+2025-12-27 12:49:29 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 25 | Excel: MUHAMMED    SALIHU                  SURAJO | Portal: MARYAM MUHAMMED | Admission: CDSSJOS/STU/0048 | Score: 33.33%
+2025-12-27 12:49:41 | ERROR | NO MATCH | Row 26 | Excel: NANBOL             SELBYEN               SARAH | Best score: 0.00% | Searched: NANBOL
+2025-12-27 12:49:53 | ERROR | NO MATCH | Row 29 | Excel: NEHEMIAM       MARVELOUS     BUBA | Best score: 0.00% | Searched: NEHEMIAM
+2025-12-27 12:50:04 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 32 | Excel: SAMUEL               ENDURANCE       MAFWALAL | Portal: DIVINE SAMUEL | Admission: CDSSJOS/STU/0200 | Score: 33.33%
+2025-12-27 12:50:16 | ERROR | NO MATCH | Row 41 | Excel: BENARD            RICHARD                    JOHN | Best score: 0.00% | Searched: BENARD
+2025-12-27 12:50:28 | ERROR | NO MATCH | Row 42 | Excel: THANKGOD      MERCY                       CHINYERE | Best score: 0.00% | Searched: THANKGOD
+2025-12-27 12:50:40 | ERROR | NO MATCH | Row 43 | Excel: HYIGINUS          AWUYENAN            MUTHYES | Best score: 0.00% | Searched: HYIGINUS
+2025-12-27 12:50:52 | ERROR | NO MATCH | Row 44 | Excel: FRIDAY              BRIGHT                      GWAZASHIM | Best score: 0.00% | Searched: FRIDAY
+2025-12-27 12:51:04 | ERROR | NO MATCH | Row 10 | Excel: AUDU                     FATIMA            USMAN | Best score: 0.00% | Searched: AUDU
+2025-12-27 12:51:16 | WARNING | FORCED UPDATE (VERY LOW CONFIDENCE) | Row 19 | Excel: GOMO                    AHMADU UMMIKULSUM | Portal: U. AHMADU | Admission: CDSSJOS/STU/0230 | Score: 33.33%
+2025-12-27 12:51:28 | ERROR | NO MATCH | Row 20 | Excel: HAFIZ                    ABUBAKAR      MOHAMMED | Best score: 0.00% | Searched: HAFIZ
+2025-12-27 12:51:39 | ERROR | NO MATCH | Row 34 | Excel: SHEHU                   MUSBAHUDEEN   MUHAMMAD | Best score: 0.00% | Searched: SHEHU
+2025-12-27 12:51:51 | ERROR | NO MATCH | Row 37 | Excel: NWACHUKWU   IFECHUKWU       EXCELL | Best score: 0.00% | Searched: NWACHUKWU
+2025-12-27 12:52:03 | ERROR | NO MATCH | Row 38 | Excel: ODIGIE                  PEACE                  OMOYE | Best score: 0.00% | Searched: ODIGIE
+2025-12-27 12:52:15 | ERROR | NO MATCH | Row 39 | Excel: BIELOSE                PRECIOUS           ESE-OGA | Best score: 0.00% | Searched: BIELOSE
+2025-12-27 12:52:26 | ERROR | NO MATCH | Row 40 | Excel: AJOBIEWE             BENITA               SUNDAY | Best score: 0.00% | Searched: AJOBIEWE
+2025-12-27 12:52:27 | INFO | ================================================================================
+2025-12-27 12:52:27 | INFO | WORKBOOK SAVED: /home/akintayo74/Downloads/JSS3/JSS 3 CLASSES BASIC SCIENCE (MRS OTIJI ELIZABETH)_updated.xlsx
+2025-12-27 12:52:27 | INFO | Total Updated: 13 | Skipped: 117 | Errors: 26
+2025-12-27 12:52:27 | INFO | ================================================================================

@@ -39,7 +39,13 @@ class ExcelRepository:
 
     def save(self):
         try:
-            output_path = self.file_path.replace('.xlsx', ' (updated_and_verified).xlsx')
+            # Save to consistency _updated.xlsx
+            # If input was already _updated, this overwrites it (Good for single source of truth)
+            if '_updated' in self.file_path:
+                output_path = self.file_path
+            else:
+                output_path = self.file_path.replace('.xlsx', '_updated.xlsx')
+                
             self.wb.save(output_path)
             return output_path
         except Exception as e:
