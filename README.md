@@ -1,5 +1,12 @@
 # Student Portal Automation - Setup Guide
 
+
+## ⚠️ Current Limitations (Beta)
+**Please Note:** This script is currently **hardcoded** for a specific school platform (Command Schools). 
+- It assumes specific HTML structures for class dropdowns (e.g., JSS1, JSS2).
+- It is optimized for a specific portal logic.
+- **Future Update:** I will be 'democratising' the script soon to make it looser and adaptable to other platforms/schools.
+
 ## 📋 Overview
 This automation script will:
 1. Log into the school portal
@@ -76,6 +83,26 @@ python student_portal_scraper.py
 6. **Updates Excel** - Writes the admission number to Column A
 7. **Saves file** - Creates a new file: `EXAM_SS3_GOVERNMENT_updated.xlsx`
 8. **Highlights changes** - Updated cells are highlighted in yellow
+
+## 🧠 How the Matching Algorithm Works
+
+The script uses a multi-layered approach to ensure high accuracy when matching Excel names to Portal names:
+
+### Phase 1: Initial Search
+- The script takes the first word of the name in Excel (usually the surname) and performs a search on the portal.
+
+### Phase 2: Scoring & Verification
+Once results are found, it compares the full name from Excel against each result from the portal using two methods:
+1.  **Exact Word Match:** Calculates how many words from the Excel name appear exactly in the Portal name.
+2.  **Fuzzy Logic:** Uses `difflib.SequenceMatcher` to handle spelling variations (e.g., "Muhammed" vs "Mohammed").
+- **Score Threshold:** Matches are only accepted if the confidence score is high enough (typically > 0.45).
+
+### Phase 3: "Smart Retry" (if Phase 1 fails)
+If the initial search yields no results or low confidence scores, the **Smart Matcher** kicks in:
+1.  It breaks the student's name down into individual components (First Name, Middle Name, Last Name).
+2.  It performs new searches for *each* component individually.
+3.  It re-evaluates matches with a stricter threshold (>= 0.70) to ensure safety.
+- *This solves cases where a student might be registered with their Middle Name as their "Surname" on the portal.*
 
 ## ⚙️ Customization Options
 
