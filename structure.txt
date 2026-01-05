@@ -1,10 +1,65 @@
 .
+├── ./COMPLETE_PROJECT_DOCUMENTATION.md
 ├── ./.env
 ├── ./.gitignore
+├── ./logs
+│  
 ├── ./README.md
 ├── ./requirements.txt
+├── ./src
+│   ├── ./src/controllers
+│   │   ├── ./src/controllers/__init__.py
+│   │   ├── ./src/controllers/__pycache__
+│   │   │   ├── ./src/controllers/__pycache__/__init__.cpython-312.pyc
+│   │   │   └── ./src/controllers/__pycache__/scraper_controller.cpython-312.pyc
+│   │   └── ./src/controllers/scraper_controller.py
+│   ├── ./src/__init__.py
+│   ├── ./src/main.py
+│   ├── ./src/models
+│   │   ├── ./src/models/excel_repository.py
+│   │   ├── ./src/models/__init__.py
+│   │   ├── ./src/models/portal_repository.py
+│   │   ├── ./src/models/__pycache__
+│   │   │   ├── ./src/models/__pycache__/excel_repository.cpython-312.pyc
+│   │   │   ├── ./src/models/__pycache__/__init__.cpython-312.pyc
+│   │   │   ├── ./src/models/__pycache__/portal_repository.cpython-312.pyc
+│   │   │   └── ./src/models/__pycache__/student_matcher.cpython-312.pyc
+│   │   ├── ./src/models/student_matcher.py
+│   │   └── ./src/models/student.py
+│   ├── ./src/__pycache__
+│   │   ├── ./src/__pycache__/__init__.cpython-312.pyc
+│   │   └── ./src/__pycache__/main.cpython-312.pyc
+│   ├── ./src/services
+│   │   ├── ./src/services/auth_manager.py
+│   │   ├── ./src/services/browser_manager.py
+│   │   ├── ./src/services/class_filter_manager.py
+│   │   ├── ./src/services/__init__.py
+│   │   ├── ./src/services/__pycache__
+│   │   │   ├── ./src/services/__pycache__/auth_manager.cpython-312.pyc
+│   │   │   ├── ./src/services/__pycache__/browser_manager.cpython-312.pyc
+│   │   │   ├── ./src/services/__pycache__/class_filter_manager.cpython-312.pyc
+│   │   │   ├── ./src/services/__pycache__/__init__.cpython-312.pyc
+│   │   │   └── ./src/services/__pycache__/smart_matcher.cpython-312.pyc
+│   │   └── ./src/services/smart_matcher.py
+│   ├── ./src/utils
+│   │   ├── ./src/utils/__init__.py
+│   │   ├── ./src/utils/log_parser.py
+│   │   ├── ./src/utils/name_cleaner.py
+│   │   └── ./src/utils/__pycache__
+│   │       ├── ./src/utils/__pycache__/__init__.cpython-312.pyc
+│   │       ├── ./src/utils/__pycache__/log_parser.cpython-312.pyc
+│   │       └── ./src/utils/__pycache__/name_cleaner.cpython-312.pyc
+│   └── ./src/views
+│       ├── ./src/views/__init__.py
+│       ├── ./src/views/logger_view.py
+│       └── ./src/views/__pycache__
+│           ├── ./src/views/__pycache__/__init__.cpython-312.pyc
+│           └── ./src/views/__pycache__/logger_view.cpython-312.pyc
 ├── ./structure.txt
 ├── ./student_portal_scraper.py
-└── ./test_login.py
+├── ./test_login.py
+└── ./tests
+    ├── ./tests/test_ai_connection.py
+    └── ./tests/verify_smart_logic.py
 
-1 directory, 7 files
+15 directories, 193 files
